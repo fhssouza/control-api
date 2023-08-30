@@ -95,7 +95,7 @@ Ao iniciar o seu projeto, acesse a documentação do sua aplicação através do
 
 O projeto é composto por pacotes que classificam as classes de acordo com o seu papel ou finalidades específicas.
 
-O pacote principal é `digytal.backend.api`.
+O pacote principal é `com.digytal.control`.
 
 | Nome       | Descrição                                                                                  |
 |------------|--------------------------------------------------------------------------------------------|
