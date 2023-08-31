@@ -58,9 +58,9 @@ public class ConsultaResource {
     public Response listarFluxoCaixa(@PathVariable("empresa") Integer empresa, @PathVariable("dataInicial") LocalDate dataInicial, @PathVariable("dataFinal") LocalDate dataFinal){
         return ResponseFactory.ok(lancamentoConsultaService.listarFluxoCaixa(empresa, dataInicial, dataFinal),"Consulta realizada com sucesso");
     }
-    @GetMapping("/empresa/{empresa}/conta-caixa")
-    public Response buscarContaCaixaSaldo(@PathVariable("empresa") Integer empresa){
-        return ResponseFactory.ok(empresaContaRepository.buscarContaCaixaSaldo(empresa),"Consulta realizada com sucesso");
+    @GetMapping("/empresa/{empresa}/conta-balcao")
+    public Response buscarContaBalcaoSaldo(@PathVariable("empresa") Integer empresa){
+        return ResponseFactory.ok(empresaContaRepository.buscarContaBalcaoSaldo(empresa),"Consulta realizada com sucesso");
     }
     @GetMapping("/parcelamentos/{parcelamento}/parcelas")
     public Response listarParcelamentosReceita(@PathVariable("parcelamento") Integer parcelamento){

@@ -43,11 +43,6 @@ public class ParcelamentoResource {
     }
     @PatchMapping("/parcelas/{parcela}/valor/{valorBoleto}")
     public Response gerarBoleto(@PathVariable("parcela") Integer parcela, @PathVariable("valorBoleto") Double valorBoleto){
-        /*
-        BoletoResponse response = new BoletoResponse();
-        response.setBankSlipUrl("https://www.asaas.com/b/pdf/5322803930049907");
-        response.setValue(5.0);
-        */
         BoletoResponse response = boletoService.gerarBoleto(parcela, valorBoleto);
         return ResponseFactory.create(response,"Solicitação realizada com sucesso");
     }

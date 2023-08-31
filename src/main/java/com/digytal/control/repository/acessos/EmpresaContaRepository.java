@@ -20,5 +20,8 @@ public interface EmpresaContaRepository extends JpaRepository<EmpresaContaEntity
     void atualizarContasNaoPadrao(@Param("empresa") Integer empresa, @Param("contaCredito") boolean contaCredito, @Param("id") Integer id);
 
     @Query(value = "SELECT e.saldo FROM EmpresaContaEntity e WHERE e.banco = 9999 AND e.empresa = :empresa ")
-    Double buscarContaCaixaSaldo(@Param("empresa") Integer empresa);
+    Double buscarContaBalcaoSaldo(@Param("empresa") Integer empresa);
+
+    @Query(value = "SELECT e FROM EmpresaContaEntity e WHERE e.banco = 9999 AND e.empresa = :empresa ")
+    EmpresaContaEntity buscarContaBalcao(@Param("empresa") Integer empresa);
 }

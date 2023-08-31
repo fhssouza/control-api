@@ -5,6 +5,7 @@ import com.digytal.control.infra.commons.validation.Validations;
 import com.digytal.control.model.core.acessos.empresa.EmpresaEntity;
 import com.digytal.control.model.core.acessos.empresa.conta.EmpresaContaEntity;
 import com.digytal.control.model.core.acessos.empresa.conta.EmpresaContaFatura;
+import com.digytal.control.model.core.acessos.empresa.pagamento.EmpresaContaMeioPagamentoEntity;
 import com.digytal.control.model.core.comum.MeioPagamento;
 import com.digytal.control.model.core.lancamentos.lancamento.LancamentoTipo;
 import com.digytal.control.model.core.comum.RegistroData;
@@ -13,6 +14,7 @@ import com.digytal.control.model.core.lancamentos.LancamentoValor;
 import com.digytal.control.model.core.lancamentos.lancamento.LancamentoContrato;
 import com.digytal.control.model.core.lancamentos.lancamento.request.TransacaoRequest;
 import com.digytal.control.model.core.lancamentos.parcelamento.parcela.ParcelaBoletoStatus;
+import com.digytal.control.model.core.lancamentos.transferencia.TransferenciaBalcao;
 import com.digytal.control.model.core.lancamentos.transferencia.TransferenciaRequest;
 import com.digytal.control.model.core.lancamentos.lancamento.request.LancamentoDetalheRequest;
 import com.digytal.control.model.core.lancamentos.lancamento.PagamentoEntity;
@@ -23,6 +25,7 @@ import com.digytal.control.model.core.lancamentos.parcelamento.ParcelamentoNegoc
 import com.digytal.control.model.core.lancamentos.parcelamento.ParcelamentoEntity;
 import com.digytal.control.model.core.lancamentos.parcelamento.ParcelamentoNegociacaoRequest;
 import com.digytal.control.model.core.lancamentos.parcelamento.parcela.ParcelaEntity;
+import com.digytal.control.repository.acessos.EmpresaContaMeioPagamentoRepository;
 import com.digytal.control.repository.acessos.EmpresaContaRepository;
 import com.digytal.control.repository.lancamentos.PagamentoRepository;
 import com.digytal.control.repository.lancamentos.ParcelamentoRepository;
@@ -49,8 +52,24 @@ public class PagamentoService extends OperacaoService {
     private PagamentoRepository lancamentoRepository;
     @Autowired
     private ParcelamentoRepository parcelamentoRepository;
+    @Autowired
+    private EmpresaContaMeioPagamentoRepository empresaContaMeioPagamentoRepository;
     @Transactional
     public void transferir(TransferenciaRequest request){
+        confirmarTransferencia(request);
+    }
+    @Transactional
+    public void transferir(TransferenciaBalcao request){
+        EmpresaContaMeioPagamentoEntity contaDebito = empresaContaMeioPagamentoRepository.findByEmpresaAndMeioPagamento(request.getPartes().getEmpresa(), MeioPagamento.DEBITO);
+        if(contaDebito==null)
+            throw new RegistroNaoLocalizadoException(Entities.EMPRESA_CONTA_ENTITY, EMPRESA);
+
+        TransferenciaRequest transferencia = new TransferenciaRequest();
+        BeanUtils.copyProperties(request,transferencia);
+        transferencia.setContaOrigem(contaDebito.getConta());
+        confirmarTransferencia(transferencia);
+    }
+    private void confirmarTransferencia(TransferenciaRequest request){
         Validations.build(CONTA_ORIGEM, CONTA_DESTINO).notEmpty().check(request);
         if(request.getContaOrigem().equals(request.getContaDestino()))
             throw new RegistroIncompativelException("A contas de origem e destino precisam ser diferentes");
