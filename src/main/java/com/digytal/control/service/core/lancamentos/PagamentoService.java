@@ -59,7 +59,7 @@ public class PagamentoService extends OperacaoService {
         confirmarTransferencia(request);
     }
     @Transactional
-    public void transferir(TransferenciaBalcao request){
+    public void transferir(TransferenciaBalcao request, Double valor){
         EmpresaContaMeioPagamentoEntity contaDebito = empresaContaMeioPagamentoRepository.findByEmpresaAndMeioPagamento(request.getPartes().getEmpresa(), MeioPagamento.DEBITO);
         if(contaDebito==null)
             throw new RegistroNaoLocalizadoException(Entities.EMPRESA_CONTA_ENTITY, EMPRESA);
@@ -67,6 +67,12 @@ public class PagamentoService extends OperacaoService {
         TransferenciaRequest transferencia = new TransferenciaRequest();
         BeanUtils.copyProperties(request,transferencia);
         transferencia.setContaOrigem(contaDebito.getConta());
+
+        LancamentoDetalheRequest detalhe = new LancamentoDetalheRequest();
+        detalhe.setDescricao("Transf. Depósito");
+        detalhe.setNumeroDocumento(""+System.currentTimeMillis());
+        detalhe.setValor(valor);
+        transferencia.setDetalhe(detalhe);
         confirmarTransferencia(transferencia);
     }
     private void confirmarTransferencia(TransferenciaRequest request){

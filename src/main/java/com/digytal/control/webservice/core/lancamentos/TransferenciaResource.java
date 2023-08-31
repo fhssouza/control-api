@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.*;
 public class TransferenciaResource {
     @Autowired
     private PagamentoService service;
-    @PostMapping("/conta-balcao")
+    @PostMapping("/conta-balcao/{valor}")
     @ResponseStatus( HttpStatus.CREATED )
-    public Response realizarPagamento(@RequestBody TransferenciaBalcao request){
-        service.transferir(request);
+    public Response realizarPagamento(@PathVariable("valor") Double valor, @RequestBody TransferenciaBalcao request){
+        service.transferir(request,valor);
         return ResponseFactory.create(true,"Transferência realizada com sucesso");
     }
 }
