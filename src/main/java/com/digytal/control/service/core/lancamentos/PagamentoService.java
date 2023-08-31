@@ -60,13 +60,18 @@ public class PagamentoService extends OperacaoService {
     }
     @Transactional
     public void transferir(TransferenciaBalcao request, Double valor){
-        EmpresaContaMeioPagamentoEntity contaDebito = empresaContaMeioPagamentoRepository.findByEmpresaAndMeioPagamento(request.getPartes().getEmpresa(), MeioPagamento.DEBITO);
+        EmpresaContaEntity contaBalcao = empresaContaRepository.buscarContaBalcao(request.getEmpresa());
+        if(contaBalcao==null)
+            throw new RegistroNaoLocalizadoException(Entities.EMPRESA_CONTA_ENTITY, EMPRESA);
+
+
+        EmpresaContaMeioPagamentoEntity contaDebito = empresaContaMeioPagamentoRepository.findByEmpresaAndMeioPagamento(request.getEmpresa(), MeioPagamento.DEBITO);
         if(contaDebito==null)
             throw new RegistroNaoLocalizadoException(Entities.EMPRESA_CONTA_ENTITY, EMPRESA);
 
         TransferenciaRequest transferencia = new TransferenciaRequest();
-        BeanUtils.copyProperties(request,transferencia);
-        transferencia.setContaOrigem(contaDebito.getConta());
+        transferencia.setContaOrigem(contaBalcao.getId());
+        transferencia.setContaDestino(contaDebito.getConta());
 
         LancamentoDetalheRequest detalhe = new LancamentoDetalheRequest();
         detalhe.setDescricao("Transf. Depósito");
@@ -84,7 +89,9 @@ public class PagamentoService extends OperacaoService {
         if(valor ==null || valor <= 0.0)
             throw new ValorNegativoException(VALOR);
 
-        RegistroParteRequest partes = request.getPartes();
+        RegistroParteRequest partes = new RegistroParteRequest();
+        partes.setUsuario(request.getUsuario());
+        partes.setEmpresa(request.getEmpresa());
 
         EmpresaEntity empresaEntity = validarPartes(partes,false);
 
@@ -94,11 +101,12 @@ public class PagamentoService extends OperacaoService {
         entityDespesa.setDescricao(detalhe.getDescricao()==null?"DESPESA POR TRANSFERENCIA": detalhe.getDescricao());
         entityDespesa.setData(RegistroData.of());
         entityDespesa.setTipo(LancamentoTipo.DESPESA);
+
         RegistroPartes parte = new RegistroPartes();
         parte.setEmpresa(partes.getEmpresa());
         parte.setOrganizacao(empresaEntity.getOrganizacao());
         parte.setCadastro(null);
-        parte.setUsuario(request.getPartes().getUsuario());
+        parte.setUsuario(request.getUsuario());
         entityDespesa.setPartes(parte);
 
         executarFluxoLancamento(request.getContaOrigem(), valor, entityDespesa);

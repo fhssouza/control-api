@@ -7,8 +7,6 @@ import lombok.Data;
 @Data
 @Schema(description="Estrutura de uma requisição de tranferência\\retirada de valor da conta caixa\\balcão")
 public class TransferenciaBalcao {
-    private RegistroParteRequest partes;
-    @Schema(description="ID da conta banco empresa destino", required = true, example = "2")
-    private Integer contaDestino;
-
+    private Integer empresa;
+    private Integer usuario;
 }

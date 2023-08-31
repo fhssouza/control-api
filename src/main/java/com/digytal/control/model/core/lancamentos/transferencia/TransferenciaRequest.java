@@ -9,5 +9,7 @@ import lombok.Data;
 public class TransferenciaRequest extends TransferenciaBalcao {
     @Schema(description="ID da conta banco empresa origem", required = true, example = "1")
     private Integer contaOrigem;
+    @Schema(description="ID da conta banco empresa destino", required = true, example = "2")
+    private Integer contaDestino;
     private LancamentoDetalheRequest detalhe;
 }
