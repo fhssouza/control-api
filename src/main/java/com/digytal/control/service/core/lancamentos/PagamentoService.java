@@ -77,7 +77,7 @@ public class PagamentoService extends OperacaoService {
 
         LancamentoDetalheRequest detalhe = new LancamentoDetalheRequest();
         detalhe.setDescricao("Transf. Depósito");
-        detalhe.setNumeroDocumento(""+System.currentTimeMillis());
+        //detalhe.setNumeroDocumento(""+System.currentTimeMillis());
         detalhe.setValor(valor);
         transferencia.setDetalhe(detalhe);
         confirmarTransferencia(transferencia);
@@ -103,6 +103,7 @@ public class PagamentoService extends OperacaoService {
         entityDespesa.setDescricao(detalhe.getDescricao()==null?"DESPESA POR TRANSFERENCIA": detalhe.getDescricao());
         entityDespesa.setData(RegistroData.of());
         entityDespesa.setTipo(LancamentoTipo.DESPESA);
+        entityDespesa.setMeioPagamento(MeioPagamento.SALDO);
 
         RegistroPartes parte = new RegistroPartes();
         parte.setEmpresa(partes.getEmpresa());
@@ -116,6 +117,7 @@ public class PagamentoService extends OperacaoService {
 
         PagamentoEntity entityReceita = new PagamentoEntity();
         entityReceita.setTipo(LancamentoTipo.RECEITA);
+        entityReceita.setMeioPagamento(MeioPagamento.SALDO);
         entityReceita.setData(RegistroData.of());
         entityReceita.setNumeroDocumento(detalhe.getNumeroDocumento()==null?"RPTR": detalhe.getNumeroDocumento());
         entityReceita.setDescricao(detalhe.getDescricao()==null?"RECEITA POR TRANSFERENCIA": detalhe.getDescricao());
