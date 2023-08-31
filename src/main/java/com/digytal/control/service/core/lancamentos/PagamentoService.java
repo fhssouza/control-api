@@ -72,6 +72,8 @@ public class PagamentoService extends OperacaoService {
         TransferenciaRequest transferencia = new TransferenciaRequest();
         transferencia.setContaOrigem(contaBalcao.getId());
         transferencia.setContaDestino(contaDebito.getConta());
+        transferencia.setEmpresa(request.getEmpresa());
+        transferencia.setUsuario(request.getUsuario());
 
         LancamentoDetalheRequest detalhe = new LancamentoDetalheRequest();
         detalhe.setDescricao("Transf. Depósito");
