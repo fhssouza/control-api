@@ -15,9 +15,9 @@ public class PagamentoRepositoryImpl extends QueryRepository {
     public List<LancamentoResponse> listBy(Integer empresa, LocalDate diaInicial, LocalDate diaFinal){
         StringSQL sql = new StringSQL();
         sql.select(" SELECT l.id as id,l.descricao as descricao, l.valor as valor, l.tipo as tipo, " +
-                " l.numeroDocumento as numeroDocumento, l.data as data, l.partes as partes,l.meioPagamento as meioPagamento, " +
+                " l.numeroDocumento as numeroDocumento, l.data as data, l.partes as partes,l.meioPagamento as meioPagamento, CASE WHEN ec.banco = 9999 THEN 'true' else 'false' END as contaCaixaBalcao, " +
                 " c.id as cadastro_id,c.cpfCnpj as cadastro_cpfCnpj, c.telefone.celular as cadastro_celular, c.nomeFantasia as cadastro_nomeFantasia, c.sobrenomeSocial as cadastro_sobrenomeSocial" +
-                " FROM PagamentoEntity l LEFT JOIN CadastroEntity c ON l.partes.cadastro = c.id ");
+                " FROM PagamentoEntity l INNER JOIN EmpresaContaEntity ec ON l.contaBanco = ec.id LEFT JOIN CadastroEntity c ON l.partes.cadastro = c.id ");
 
 
         Map<String, Object> filters = new LinkedHashMap<>();

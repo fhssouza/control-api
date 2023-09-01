@@ -76,7 +76,7 @@ public class PagamentoService extends OperacaoService {
         transferencia.setUsuario(request.getUsuario());
 
         LancamentoDetalheRequest detalhe = new LancamentoDetalheRequest();
-        detalhe.setDescricao("Transf. Depósito");
+        detalhe.setDescricao("Transf.Deposito.Retirada");
         //detalhe.setNumeroDocumento(""+System.currentTimeMillis());
         detalhe.setValor(valor);
         transferencia.setDetalhe(detalhe);

@@ -16,4 +16,5 @@ public abstract class LancamentoAbstractResponse {
     private LancamentoTipo tipo;
     private LancamentoCadastro cadastro = new LancamentoCadastro();
     private MeioPagamento meioPagamento;
+    private boolean contaCaixaBalcao;
 }
