@@ -19,7 +19,7 @@ import java.util.Locale;
 
 @Configuration
 
-@OpenAPIDefinition(info = @Info(title = "REST API", version = "1.1",
+@OpenAPIDefinition(info = @Info(title = "REST API", version = "1.0-07/10 19:30",
         contact = @Contact(name = "Digytal", email = "gleyson@digytal.com.br")),
         security = {@SecurityRequirement(name = "basicAuth"), @SecurityRequirement(name = "bearerToken")}
 )

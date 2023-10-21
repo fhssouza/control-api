@@ -5,11 +5,14 @@ import java.util.Arrays;
 import java.util.List;
 
 public class JwtObject {
+    private Integer usuario;
+    private Integer empresa;
+    private Integer organizacao;
     private String subject; //nome do usuario
     private LocalDateTime issuedAt; //data de criação do token
     private LocalDateTime expiration; // data de expiração do token
     private List<String> roles; //perfis de acesso
-
+    private boolean valido;
     private static JwtObject build=null;
     public static JwtObject builder(){
         build = new JwtObject();
@@ -49,6 +52,22 @@ public class JwtObject {
         this.build.expiration = expiration;
         return this;
     }
+    public JwtObject usuario(Integer usuario) {
+        this.build.usuario = usuario;
+        return this;
+    }
+    public JwtObject empresa(Integer empresa) {
+        this.build.empresa = empresa;
+        return this;
+    }
+    public JwtObject organizacao(Integer organizacao) {
+        this.build.organizacao = organizacao;
+        return this;
+    }
+    public JwtObject valido(boolean valido) {
+        this.build.valido = valido;
+        return this;
+    }
 
     public List<String> getRoles() {
         return roles;
@@ -62,5 +81,21 @@ public class JwtObject {
     public JwtObject roles(String... roles){
         this.build.roles = Arrays.asList(roles);
         return this;
+    }
+
+    public Integer getUsuario() {
+        return usuario;
+    }
+
+    public Integer getEmpresa() {
+        return empresa;
+    }
+
+    public Integer getOrganizacao() {
+        return organizacao;
+    }
+
+    public boolean isValido() {
+        return valido;
     }
 }

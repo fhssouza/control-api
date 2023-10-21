@@ -4,6 +4,7 @@ import com.digytal.control.infra.business.*;
 import org.springframework.beans.PropertyAccessor;
 import org.springframework.beans.PropertyAccessorFactory;
 
+import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -14,7 +15,8 @@ public class Validations {
         MAX_LEN,
         NOT_EMPTY,
         CPF_CNPJ,
-        EMAIL
+        EMAIL,
+        ZERO,
         ;
     }
 
@@ -49,6 +51,8 @@ public class Validations {
     public Validations notEmpty(){
         return put(Type.NOT_EMPTY,0);
     }
+    public Validations notZero() {return put(Type.ZERO);
+    }
     private Validations put(Type type, Object ... conditions){
         instance.defintions.put(type,conditions);
         return  instance;
@@ -64,35 +68,41 @@ public class Validations {
            PropertyAccessor accessor = PropertyAccessorFactory.forDirectFieldAccess(object);
            Object value = accessor.getPropertyValue(field.getAttribute());
            String condition = conditions!=null && conditions.length >0 ? conditions[0].toString():null;
-           if(type== Type.NOT_EMPTY){
-               if(Validation.isEmpty(value))
+           if(value!=null) {
+               if (type == Type.NOT_EMPTY) {
+                   if (Validation.isEmpty(value))
+                       throw new CampoObrigatorioException(label);
+               } else if (type == Type.RANGE_LEN) {
+                   int min = Integer.parseInt(condition);
+                   int max = Integer.parseInt(conditions[1].toString());
+                   if (!Validation.rangeLength(value, min, max))
+                       throw new TamanhoMinimoMaximoException(label, min, max);
+               } else if (type == Type.MIN_LEN) {
+                   int min = Integer.parseInt(condition);
+                   if (!Validation.minLength(value, min))
+                       throw new TamanhoMinimoException(label, min);
+               } else if (type == Type.MAX_LEN) {
+                   int max = Integer.parseInt(condition);
+                   if (!Validation.maxLength(value, max))
+                       throw new TamanhoMaximoException(label, max);
+               } else if (type == Type.NOT_EMPTY) {
+                   if (Validation.isEmpty(value))
+                       throw new CampoObrigatorioException(label);
+               } else if (type == Type.CPF_CNPJ) {
+                   if (!Validation.cpfCnpj(value.toString()))
+                       throw new CpfCnpjInvalidoException();
+               } else if (type == Type.EMAIL) {
+                   if (!Validation.email(value.toString()))
+                       throw new EmailInvalidoException();
+               } else if (type == Type.ZERO) {
+                   if(new BigDecimal(value.toString()).equals(BigDecimal.ZERO))
+                       throw new NumeriZeroException(label);
+               }
+           }else{
+               if (type == Type.NOT_EMPTY) {
                    throw new CampoObrigatorioException(label);
+               }
            }
-           else if(type== Type.RANGE_LEN) {
-               int min = Integer.parseInt(condition);
-               int max  =Integer.parseInt(conditions[1].toString());
-               if(!Validation.rangeLength(value,min,max))
-                   throw new TamanhoMinimoMaximoException(label, min,max);
-           }
-           else if(type== Type.MIN_LEN) {
-               int min = Integer.parseInt(condition);
-               if (!Validation.minLength(value, min))
-                   throw new TamanhoMinimoException(label, min);
-           }else if(type== Type.MAX_LEN) {
-               int max  =Integer.parseInt(condition);
-               if(!Validation.maxLength(value,max))
-                   throw new TamanhoMaximoException(label,max);
-           }else if(type== Type.NOT_EMPTY) {
-               if(Validation.isEmpty(value))
-                   throw new CampoObrigatorioException(label);
-           }else if(type== Type.CPF_CNPJ) {
-               if(!Validation.cpfCnpj(value.toString()))
-                   throw new CpfCnpjInvalidoException();
-           }else if(type== Type.EMAIL) {
-               if(!Validation.email(value.toString()))
-                   throw new EmailInvalidoException();
-           }
-
        }
     }
 }

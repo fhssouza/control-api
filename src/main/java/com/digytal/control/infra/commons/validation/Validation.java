@@ -9,7 +9,7 @@ public class Validation {
             + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$", Pattern.CASE_INSENSITIVE);
 
     public static boolean isEmpty(Object value){
-        return value==null || value.toString().isEmpty() || value.toString().length()==0;
+        return value==null || value.toString().trim().isEmpty() || value.toString().length()==0;
     }
     public static boolean isNotEmpty(Object value) {
         return !isEmpty(value);

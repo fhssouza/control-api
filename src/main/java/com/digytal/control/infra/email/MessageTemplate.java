@@ -20,17 +20,15 @@ public class MessageTemplate {
     }
     public String novoAcessoMensagem(String nome, String login,String senhaTemporaria){
         String msg = String.format("Olá %s,\nSeja bem-vindo a nossa plataforma online, " +
-                "para acessar os recursos online basta informar seu login e senha conforme abaixo.\n\nLogin: %s\nSenha: %s\n\nAtenciosamente,\nDigytal",
+                "digite o token informado para definir sua senha pessoal.\n\nLogin: %s\nSenha: %s\n\nAtenciosamente,\nDigytal",
                 nome, login, senhaTemporaria);
         return msg;
     }
     public String novoLinkAlteraSenhaMensagem(String nome, Integer id,String senhaTemporaria){
-        String url = String.format("<a href=\\\"%s&%d&%s\\\">CLICK AQUI</a>",ServletUriComponentsBuilder.fromCurrentContextPath().toUriString(),id,senhaTemporaria);
-
-
+        //String url = String.format("<a href=\\\"%s&%d&%s\\\">CLICK AQUI</a>",ServletUriComponentsBuilder.fromCurrentContextPath().toUriString(),id,senhaTemporaria);
         String msg = String.format("Olá %s,\nSeja bem-vindo a nossa plataforma online, " +
-                        "clique no link abaixo para definir uma senha e acessar nossos conteúdos.\n\nLink: %s\n\nAtenciosamente,\nDigytal",
-                nome, url);
+                        "digite o token informado no email\n\nAtenciosamente,\nDigytal",
+                nome);
         return msg;
     }
     public String alteracaoSenhaMensagem(String nome){

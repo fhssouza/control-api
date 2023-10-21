@@ -1,30 +1,12 @@
 package com.digytal.control.infra.config;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
-import org.springframework.boot.autoconfigure.AutoConfigureBefore;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
-import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 
 //https://medium.com/@andylke/rest-controller-configure-date-time-format-in-json-response-201e97aa74b0
 //https://www.baeldung.com/spring-boot-customize-jackson-objectmapper
@@ -38,7 +20,7 @@ public class GlobalConfiguration   {
     private static final String timePattern = "HH:mm:ss";
 
     @Bean
-    public ObjectMapper objectMapper(){
+    public ObjectMapper mapper(){
         ObjectMapper instance = new ObjectMapper();
         instance.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         instance.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);

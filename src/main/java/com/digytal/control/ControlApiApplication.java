@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
 @EnableScheduling
@@ -14,10 +15,10 @@ public class ControlApiApplication {
 		SpringApplication.run(ControlApiApplication.class, args);
 	}
 
-	@Bean
-	public CommandLineRunner run() throws Exception {
-		return args -> {
-			System.out.println("SE PRECISAR EXECUTAR ALGO NO CONSOLE");
-		};
-	}
+@Bean
+public CommandLineRunner run(PasswordEncoder e) throws Exception {
+	return args -> {
+		System.out.println("SE PRECISAR EXECUTAR ALGO NO CONSOLE");
+	};
+}
 }

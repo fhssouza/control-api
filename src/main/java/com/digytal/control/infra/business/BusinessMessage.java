@@ -43,14 +43,17 @@ public enum BusinessMessage {
     E123("123", "Ops! não te localizei","Revise seu e-mail e senha por favor"),
     E900("900", "Token inválido ou expirado","Realize uma nova autenticação"),
     E124("124", "Cadastro incompleto, %s","Complete o cadastro conforme especificações cadastrais"),
-    E125("125", "O campo %s não pode ser zero ou negativo","Informe um número de valor positivo superior o zero"),
-    E126("126", "Saldo insuficiente","Realize um lançamento de CRÉDITO na conta selecionada"),
+    E125("125", "O campo %s não pode ser negativo","Informe um número de valor positivo superior ou igual à zero"),
+    E126("126", "Saldo insuficiente","Realize um lançamento tipo RECEITA na conta selecionada"),
     E127("127", "%s","O campo precisa atender aos requisitos de negócio"),
     E128("128", "%s","Contacte o administrator do sistema"),
     E129("129", "Não existe uma conta padrão para esta empresa","Defina uma conta padrão para esta empresa"),
     E130("130", "Não existe uma configuração forma de pagamento do tipo: %s","Confira as configurações de contas e forma de pagamento da empresa"),
     E131("131", "%s","Consulte as definições de integração das aplicações ou contacte o time de suporte"),
-
+    E132("132", "O(s) parâmetros(s) %s são obrigatórios","O(s) parâmetros(s) precisa(m) atender aos requisitos de negócio"),
+    E133("133", "%s","Organização ou Empresa não encontrada em nossa base de dados"),
+    E134("134", "%s","Marca não encontrada em nossa base de dados"),
+    E135("135", "O campo %s não pode ser igual à Zero (0)","Informe um número de valor positivo superior à zero"),
     E501("501", "Erro ao tentar acessar o recurso","Contacte o Suporte Técnico"){
 
         @Override
@@ -59,6 +62,13 @@ public enum BusinessMessage {
         }
     },
     E502("502", "Método não implementado","Contacte o Suporte Técnico"){
+        @Override
+        public int getHttpStatus() {
+            return 500;
+        }
+    },
+    E500("500", "Erro não mapeado","Contacte o Suporte Técnico"){
+
         @Override
         public int getHttpStatus() {
             return 500;

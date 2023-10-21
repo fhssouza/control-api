@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.digytal.control.infra.business.login.TokenInvalidoException;
+import com.digytal.control.infra.config.RequestInfo;
 import com.digytal.control.infra.http.response.ResponseFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ import org.springframework.web.util.UrlPathHelper;
 public class JwtFilter extends OncePerRequestFilter {
     private final ObjectMapper mapper = new ObjectMapper();
     private final UrlPathHelper urlHelper = new UrlPathHelper();
+
+    @Autowired
+    private RequestInfo requestInfo;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
@@ -39,6 +43,8 @@ public class JwtFilter extends OncePerRequestFilter {
         try {
             if(token!=null && !token.isEmpty() && !token.trim().equals("Bearer")) {
                 JwtObject tokenObject = JwtCreator.create(token,SecurityConfig.PREFIX, SecurityConfig.KEY);
+                if(!tokenObject.isValido() && (!request.getRequestURI().contains("public")))
+                    throw new UnsupportedJwtException("Este token não possui as credencias necessárias");
 
                 List<SimpleGrantedAuthority> authorities = authorities(tokenObject.getRoles());
 
@@ -48,8 +54,14 @@ public class JwtFilter extends OncePerRequestFilter {
                                 null,
                                 authorities);
 
-                SecurityContextHolder.getContext().setAuthentication(userToken);
-                //JwtState.setSubject(tokenObject.getSubject());
+                if(tokenObject.isValido()) {
+                    SecurityContextHolder.getContext().setAuthentication(userToken);
+                    requestInfo.setUsuario(tokenObject.getUsuario());
+                    requestInfo.setEmpresa(tokenObject.getEmpresa());
+                    requestInfo.setOrganizacao(tokenObject.getOrganizacao());
+                }else
+                    throw new UnsupportedJwtException("");
+
             }else {
                 SecurityContextHolder.clearContext();
             }
@@ -59,6 +71,7 @@ public class JwtFilter extends OncePerRequestFilter {
             response.setStatus(HttpStatus.FORBIDDEN.value());
             response.setContentType("application/json");
             String json = mapper.writeValueAsString(ResponseFactory.exception(new TokenInvalidoException()));
+            //String json = mapper.writeValueAsString(new TokenInvalidoException());
             response.getWriter().write(json);
         }
     }

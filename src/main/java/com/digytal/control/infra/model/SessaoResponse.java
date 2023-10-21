@@ -1,9 +1,8 @@
 package com.digytal.control.infra.model;
 
-
+import com.digytal.control.infra.model.usuario.UsuarioResponse;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-
 import java.time.LocalDateTime;
 
 @Data

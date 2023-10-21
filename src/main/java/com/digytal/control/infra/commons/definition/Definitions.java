@@ -1,7 +1,6 @@
 package com.digytal.control.infra.commons.definition;
 
 import com.digytal.control.infra.commons.validation.Attributes;
-import com.digytal.control.model.core.params.cep.CepEntity;
 import org.springframework.beans.PropertyAccessor;
 import org.springframework.beans.PropertyAccessorFactory;
 
@@ -94,15 +93,6 @@ public class Definitions {
 
             accessor.setPropertyValue(field,value);
         }
-    }
-
-    public static void main(String[] args) {
-        CepEntity e = new CepEntity();
-        e.setLogradouro("rua são joão josé da conceição íris");
-        Definitions.build().upperNormalize("logradouro").define(e);
-        System.out.println(e.getLogradouro());
-
-        System.out.println(String.format("%10.10s", e.getLogradouro()));
     }
 }
 

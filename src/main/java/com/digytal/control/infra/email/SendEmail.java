@@ -42,13 +42,14 @@ public class SendEmail{
         StringBuilder sb = new StringBuilder();
         sb.append("<body>");
         sb.append("<p>Olá " + nome +",</p>");
-        sb.append("<p>Seja bem-vindo a Digyal Space, uma plataforma de soluções, click no link abaixo ou utilize o token na tela.</p>");
+        sb.append("<p>Seja bem-vindo ao Control Click, seu gestor financeiro pessoal, digite o token informado para definir sua senha pessoal.</p>");
+        sb.append(String.format("<p>Token: %s </p>", senhaTemporaria));
         sb.append(String.format("<p>Nome: %s </p>", nome));
         sb.append(String.format("<p>Login: %s </p>", login));
-        sb.append(String.format("<p>Token: %s </p>", senhaTemporaria));
-        sb.append("<p><a href=\""+url+"\">CLICK AQUI</a></p>");
-        sb.append("<p>Ou copie este link no navegador</p>");
-        sb.append(url);
+
+        //sb.append("<p><a href=\""+url+"\">CLICK AQUI</a></p>");
+        //sb.append("<p>Ou copie este link no navegador</p>");
+        //sb.append(url);
         sb.append("<p>Atenciosamente,</p>");
         sb.append("<p>Gleyson</p>");
         sb.append("</body>");

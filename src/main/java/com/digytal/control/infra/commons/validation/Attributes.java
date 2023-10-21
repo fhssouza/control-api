@@ -3,18 +3,20 @@ package com.digytal.control.infra.commons.validation;
 public enum Attributes {
 
     ID("id","Id"),
-
-    USUARIO_AULA("UsuarioAulaEntity","Registro Início Aula"),
+    UNID_EMBALAGEM("unidadeEmbalagem","Embalagem do produto"),
+    CODIGO_BARRAS("codigoBarras","Código de Barras"),
+    SKU("sku","Unidade de Manutenção de Estoque"),
+    NOME_ABREVIADO("nomeAbreviado","Nome abreviado"),
+    USUARIO_AULA("usuarioAula","Registro Início Aula"),
     USUARIO("usuario","Usuário"),
     CPF_CNPJ("cpfCnpj","CPF / CNPJ"),
     DATA_NASCIMENTO("dataNascimento","Data de Nascimento"),
     NOME("nome","Nome"),
+    QUANTIDADE("quantidade","Quantidade"),
+    SIGLA("sigla","Sigla"),
     SERVICO("servico","Serviço"),
     UNIDADE_MEDIDA("unidadeMedida","Unidade Medida"),
-    CODIGO_BARRAS("codigoBarras","Código de Barras"),
-
     ATUALIZA_SALDO("atualizaSaldo","Atualiza Estoque"),
-
     SOBRENOME("sobrenome","Sobrenome"),
     SOBRENOME_SOCIAL("sobrenomeSocial","Sobrenome\\Social"),
     NOME_COMPLETO("nomeCompleto","Nome Completo"),
@@ -50,12 +52,16 @@ public enum Attributes {
 
     TIPO("tipo","Tipo"),
     EMPRESA("empresa","Empresa"),
+    VALOR_DESCONTO_MANUAL("valorDescontoManul","Valor Desconto"),
+
     CADASTRO("cadastro","Cadastro"),
     CONTA_ORIGEM("contaOrigem","Conta Origem"),
     CONTA_DESTINO("contaDestino","Conta Destino"),
     MODULO_ID("modulo","Módulo"),
     FUNCIONALIDADE_ID("funcionalidadeId","Funcionalidade"),
     DESCRICAO("descricao","Descrição"),
+    OBSERVACAO("observacao","Observação"),
+    TITULO("titulo","Título"),
     PLANO_CONTA("planoConta","Plano de Conta"),
     ESTABELECIMENTO("estabelecimento","Estabelecimento"),
     EMPRESA_CONTA("empresaContaId","Conta da Empresa"),
@@ -74,6 +80,8 @@ public enum Attributes {
     AGENCIA("agencia","Agência"),
     CONTA("conta","Conta"),
     FORMA_PAGAMENTO("formaPagamento","Forma de Pagamento"),
+    MEIO_PAGAMENTO("meioPagamento","Meio de Pagamento"),
+
     DIAS_INTERVALO("diasIntervalo","Dias Intervalo"),
     DIA_VENCIMENTO("diaVencimento","Dia Vencimento"),
     LEGENDA("legenda","Legenda"),

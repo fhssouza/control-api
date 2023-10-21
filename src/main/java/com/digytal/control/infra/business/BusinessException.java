@@ -36,4 +36,10 @@ public class BusinessException extends  RuntimeException{
     public int getHttpStatus() {
         return httpStatus;
     }
+    public static String logMessage(BusinessException be){
+        return String.format("#ALERTA de Validacao Regra Cod.: %s - Mensagem: %s - Sugestão: %s", be.getErrorCode(), be.getMessage(), be.getSuggestion());
+    }
+    public static String errorMessage(String mensagem, Object ... params){
+        return "#ERRO: " + String.format(mensagem, params);
+    }
 }

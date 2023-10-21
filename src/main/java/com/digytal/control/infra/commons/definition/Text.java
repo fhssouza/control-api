@@ -9,9 +9,13 @@ public class Text {
         REMOVE_ESPECIAL_CHAR,
         ONLY_DIGITS,
         NORMALIZER,
+        UPPER_NORMALIZE;
     }
     public static String upperCase(Object value){
         return replace(Operation.UPPER_CASE,value);
+    }
+    public static String upperNormalize(Object value){
+        return replace(Operation.UPPER_NORMALIZE,value);
     }
     public static String lowerCase(Object value){
         return replace(Operation.LOWER_CASE,value);
@@ -39,7 +43,11 @@ public class Text {
                 else if(operation== Operation.ONLY_DIGITS)
                     sValue=value.toString().replaceAll("\\D","");
                 else if(operation== Operation.NORMALIZER)
-                   sValue = Normalizer.normalize(value.toString(), Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").toUpperCase();;
+                   sValue = Normalizer.normalize(value.toString(), Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+                else if(operation== Operation.UPPER_NORMALIZE) {
+                    sValue = normalize(value).toUpperCase();
+                }
+                sValue = sValue.toString().trim();
             }
             return sValue;
         } catch (Exception e) {

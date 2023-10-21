@@ -12,13 +12,8 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
-@Schema(name="Response", description="Representação padrão do conteúdo das respostas HTTP disponíveis na API")
+@Schema(name="Resposta da requisição", description="Representação padrão do conteúdo das respostas HTTP disponíveis na API")
 public class Response<T> {
-	@Schema(description="Data\\Hora da resposta", nullable = false,example = "2022-06-30 16:10:21")
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	@JsonSerialize(using = LocalDateTimeSerializer.class)
-	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
-	LocalDateTime dateTime = LocalDateTime.now();
 	ResponseStatus status;
 	@Schema(description="Corpo da resposta da requisição que pode ser uma lista, um objeto ou um elemento", nullable = false,example = "{\"id\":1,\"nome\":\"ADMINISTRADOR\"}" )
 	T body;
